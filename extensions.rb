@@ -2,11 +2,12 @@ module ChunkyPNG::Color
   def self.hue(pixel)
     r, g, b = r(pixel), g(pixel), b(pixel)
     return 0 if r == b and b == g 
-    180 / Math::PI * Math.atan2((2 * r) - g -b, Math.sqrt(3) * (g - b)) 
+    ((180 / Math::PI * Math.atan2((2 * r) - g - b, Math.sqrt(3) * (g - b))) - 90) % 360
   end
 
   def self.distance(pixel, poxel)
-    (hue(pixel) - hue(poxel)).abs
+    hue_pixel, hue_poxel = hue(pixel), hue(poxel)
+    [(hue_pixel - hue_poxel) % 360, (hue_poxel - hue_pixel) % 360].min
   end
 end
 
